@@ -1,6 +1,8 @@
 package com.addusername.myapplication.service;
 
 
+import androidx.annotation.NonNull;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
@@ -17,11 +19,19 @@ public class restService {
 
     }
     public String getResponse(){
-        response = restTemplate.getForEntity(url+ "/1", String.class);
+        //Check how to inject headers and body also
+        response = restTemplate.getForEntity (url+ "/1", String.class);
         return response.toString();
     }
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        //Here we should return the atributes as String json to save it ez
+        return super.toString();
     }
 }
