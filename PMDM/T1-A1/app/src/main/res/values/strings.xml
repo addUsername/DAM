@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string-array name="callOptions">
+        <item>GET</item>
+        <item>POST</item>
+        <item>UPDATE</item>
+    </string-array>
+</resources>
