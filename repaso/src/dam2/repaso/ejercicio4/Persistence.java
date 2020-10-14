@@ -14,7 +14,7 @@ public class Persistence {
 	private Statement query;
 	
 	final private String driver = "jdbc:mysql://";
-	final private String hostname = "127.0.0.1:3308/";
+	final private String hostname = "127.0.0.1:3306/";
 	final private String db = "agenda";
 	final private String user = "root";
 	final private String pass = "root";
@@ -25,7 +25,9 @@ public class Persistence {
 		try {
 		    Class.forName("com.mysql.jdbc.Driver");
 		    System.out.println("Estableciendo conexion..");
-	        con = DriverManager.getConnection(driver+hostname+db, user, pass);	        
+		    System.out.println(driver+hostname+db);
+	        con = DriverManager.getConnection(driver+hostname+db, user, pass);
+	        query = con.createStatement();
 		} catch (ClassNotFoundException e) {
 		    e.printStackTrace();
 		} catch (SQLException e) {
@@ -37,7 +39,12 @@ public class Persistence {
 	public void create(Contacto contacto) {
 		
 		HashMap<String,String> con = contacto.toHashMap();
-		ResultSet rs = query.executeQuery("INSERT INTO contactos (nombre, telefono, casa) VALUES("+con[]);
+		try {
+			boolean bol = query.execute("INSERT INTO contactos (nombre, telefono, casa) VALUES"+contacto.toString()+";");
+			if(bol) System.out.println("Contacto guardado");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		
 	}
 	
