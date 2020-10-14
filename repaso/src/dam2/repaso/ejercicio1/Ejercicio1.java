@@ -5,7 +5,6 @@ import java.util.Scanner;
 public class Ejercicio1 {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		final int numAttemps = 3;
 		int i;
 		String[] userPass;
@@ -24,8 +23,7 @@ public class Ejercicio1 {
 		}else {
 			
 			System.out.println("has consumido todos tus intentos");
-		}
-		
+		}		
 	}
 	public static String[] getUserPass() {
 
@@ -45,6 +43,5 @@ public class Ejercicio1 {
 		
 		if(USER.equalsIgnoreCase(userPass[0]) && PASS.equalsIgnoreCase(userPass[1])) return true;		
 		return false;
-	}
-	
+	}	
 }

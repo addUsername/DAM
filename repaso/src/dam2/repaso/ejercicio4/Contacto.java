@@ -44,22 +44,9 @@ public class Contacto {
 
 	public void setHome(String home) {
 		this.home = home;
-	}
-		
+	}		
 	@Override
 	public String toString() {
-		return "(" + name + "," + phone + "," + home + ")";
+		return "('" + name + "','" + phone + "','" + home + "')";
 	}
-
-	//BORRAR ESTO?
-	public HashMap<String, String> toHashMap() {
-		
-		HashMap<String, String> toReturn = new HashMap<String, String>();
-		toReturn.put("Name",getName());
-		toReturn.put("Phone",getPhone());
-		toReturn.put("Home",getHome());		
-		return toReturn;
-	}
-	
-
 }

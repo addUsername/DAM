@@ -1,6 +1,5 @@
 package dam2.repaso.ejercicio4;
 
-import java.sql.Connection;
 import java.util.Scanner;
 
 public class Ejercicio4 {
@@ -8,25 +7,28 @@ public class Ejercicio4 {
 
 	public static void main(String[] args) {
 		
+		System.out.println("[INFO]  ./sql/create_table.sql debe ser ejecutado manualmente");
 		Persistence per = new Persistence();
-		Scanner sc = new Scanner(System.in);		
-		printMenu();
-		callAction(sc.nextInt(),per);
+		Scanner sc = new Scanner(System.in);
+		while(true) {
+			printMenu();
+			callAction(sc.nextInt(),per);
+		}
 	}
-
 	private static void printMenu() {
 		
 		System.out.println("\nAGENDA");
-		System.out.println("1- Leer contacto \n2- Añadir contacto \n3- Borrar contacto \n0- Salir");		
+		System.out.println("1- Leer contacto \n10- Leer todos \n2- Añadir contacto \n3- Borrar contacto \n0- Salir");		
 	}
-
 	private static void callAction(int nextInt, Persistence per) {
-		
-		
+				
 		switch (nextInt) {
 		
 		case 1:
 			per.find(getName());
+			break;
+		case 10:
+			per.findAll();
 			break;
 		case 2:
 			per.create(createContact());
@@ -40,14 +42,14 @@ public class Ejercicio4 {
 			break;
 		}
 	}
-
 	private static String getName() {
+		
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Introduzca el nombre del contacto: ");
 		return sc.nextLine();
 	}
-
 	private static Contacto createContact() {
+		
 		Contacto contact = new Contacto();
 		Scanner sc = new Scanner(System.in);
 		
@@ -59,5 +61,4 @@ public class Ejercicio4 {
 		contact.setHome(sc.nextLine());
 		return contact;
 	}
-
 }

@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class Ejercicio2 {
 	
 	public static void main(String[] args) throws Exception {
-		
+		System.out.println("[INFO]  ./output/listado.txt es necesario");
 		File file = new File("./output/listado.txt");
 		if(!file.exists()) throw new Exception("listado.txt no existe, ruta: "+file.getAbsolutePath() );
 		
@@ -22,12 +22,11 @@ public class Ejercicio2 {
 		}
 		if(write(lines, file)) System.out.println("Terminado. Ver fichero en ruta ./output/listado.txt");
 	}
-	/** This method first splits line to find the first word (aka name) and then another line split by name to get rid of cloned words
+	/** Este metodo primero split() la linea por " " para encontrar el nombre y luego vuelve a dividir la linea por el nombre.
 	 * 
 	 * @param line The line read by Scanner
-	 * @return cleanedline.
-	 */
-	
+	 * @return cleaned line.
+	 */	
 	public static String cleanLine(String line) {
 		String name = line.split(" ")[0];
 		return name + line.split(name)[1];
