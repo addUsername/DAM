@@ -26,18 +26,25 @@ public class Ejercicio4 {
 		switch (nextInt) {
 		
 		case 1:
-			
+			per.find(getName());
 			break;
 		case 2:
 			per.create(createContact());
 			break;
 		case 3:
+			per.delete(getName());
 			break;
 		case 0:
 			System.exit(0);
 		default:
 			break;
 		}
+	}
+
+	private static String getName() {
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Introduzca el nombre del contacto: ");
+		return sc.nextLine();
 	}
 
 	private static Contacto createContact() {

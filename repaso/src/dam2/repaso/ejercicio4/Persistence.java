@@ -38,10 +38,31 @@ public class Persistence {
 	
 	public void create(Contacto contacto) {
 		
-		HashMap<String,String> con = contacto.toHashMap();
 		try {
 			boolean bol = query.execute("INSERT INTO contactos (nombre, telefono, casa) VALUES"+contacto.toString()+";");
 			if(bol) System.out.println("Contacto guardado");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+	public void find(String name) {
+		try {
+			rs = query.executeQuery("SELECT * FROM contactos WHERE name = "+name+";");
+			System.out.println("todo resultset");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+	}
+
+	public void delete(String name) {
+		
+		try {
+			boolean bol = query.execute("DELETE FROM contactos WHERE name="+name+";");
+			if(bol) System.out.println(name+" borrado");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
