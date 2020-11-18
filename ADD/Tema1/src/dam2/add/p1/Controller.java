@@ -8,9 +8,9 @@ import java.util.HashMap;
  */
 public class Controller {
 
-	private final int MAX = 3;
-	private final String ADMIN = "admin";
-	private HashMap<String, User> users;
+	private final int MAX = 3;	// Número max de intentos login por usuario valido
+	private final String ADMIN = "admin"; // username con privilegios admin
+	private HashMap<String, User> users; // "tabla" Usuarios. user:{ username: "", pass: "", isValid: true}
 	
 	/**
 	 * Constructor, welcome mensaje y carga la base de usuarios

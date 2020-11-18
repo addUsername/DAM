@@ -1,11 +1,14 @@
 package dam2.add.p1;
 
+/**
+ * @author SERGI
+ * Clase usuario, Repository.java mapea "acceso.txt" y "bloqueados.txt" a este objeto
+ */
 public class User {
 	
-	private String username;
-	private String pass;
-	private boolean valid;
-	
+	private String username; //acceso.txt
+	private String pass;	//acceso.txt
+	private boolean valid; //bloqueados.txt, representa si un usuario puede acceder o no	
 	
 	public User(String username, String pass, boolean valid) {
 		super();
@@ -13,14 +16,12 @@ public class User {
 		this.pass = pass;
 		this.valid = valid;
 	}
-
 	public User(String username, String pass) {
 		super();
 		this.username = username;
 		this.pass = pass;
 		this.setValid(true);
-	}
-	
+	}	
 	public User() {
 	}
 	
@@ -44,13 +45,8 @@ public class User {
 	public void setPass(String pass) {
 		this.pass = pass;
 	}
-
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
 		return username+":"+pass;
 	}
-	
-	
-
 }

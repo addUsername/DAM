@@ -8,7 +8,9 @@ import java.util.Scanner;
  */
 public class Ui {
 
-	
+	/**
+	 * Título 
+	 */
 	public static void printHello() {
 		
 		System.out.println(" -----------------");
@@ -68,19 +70,16 @@ public class Ui {
 		return new User(username, a);
 	}
 	/**
-	 * Feedback al usuario
+	 * Pide un nuevo pass
 	 */
-	public static void printMessage(String message) {
-		System.out.println(message);
-	}
-	public static void printError(String error) {
-		System.err.println(error);
-	}
 	public static String getPass() {		
 		Scanner sc = new Scanner(System.in);
 		System.out.print("Pass: ");
 		return sc.nextLine();
 	}
+	/**
+	 * Desbloquear usuario o salir
+	 */
 	public static String unblock(String blockedUsers) {
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Usuarios bloqueados, escriba un nombre para desbloquar o exit para salir");
@@ -88,5 +87,14 @@ public class Ui {
 		String username = sc.nextLine();
 		if(username.equals("exit")) return null;
 		return username;
+	}
+	/**
+	 * Feedback al usuario desde Controller.java
+	 */
+	public static void printMessage(String message) {
+		System.out.println(message);
+	}
+	public static void printError(String error) {
+		System.err.println(error);
 	}
 }

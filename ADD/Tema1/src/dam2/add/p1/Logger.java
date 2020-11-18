@@ -9,11 +9,13 @@ public class Logger {
 	
 	/**
 	 * Escribe el log en loging.log
+	 * Ex: Wed Nov 18 22:59:45 CET 2020 - [SUCCESS] admin
 	 */
 	public static void log(String string) {
 		try {
 			File file = new File(LOG_LOG);
 			if(!file.exists()) file.createNewFile();
+			
 			FileWriter fw = new FileWriter(file, true);
 			fw.write("\n"+new Date()+" "+string);
 			fw.close();			

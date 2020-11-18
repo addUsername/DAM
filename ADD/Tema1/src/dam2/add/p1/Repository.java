@@ -24,17 +24,17 @@ public class Repository {
 		HashMap<String, User> toReturn = new HashMap<String, User>();
 		
 		try {
-				List<String> blockedUsers = getBlockedUsers();
-				
-				Stream<String> myStream = Files.lines(Paths.get(USERS_TXT),StandardCharsets.UTF_8);
-				myStream.forEach( line -> {
-					String[] pair = line.split(":");
-					toReturn.put(pair[0] ,new User(
-							pair[0],
-							pair[1],
-							!blockedUsers.contains(pair[0])
-							));		
-				});
+			List<String> blockedUsers = getBlockedUsers();
+			
+			Stream<String> myStream = Files.lines(Paths.get(USERS_TXT),StandardCharsets.UTF_8);
+			myStream.forEach( line -> {
+				String[] pair = line.split(":");
+				toReturn.put(pair[0] ,new User(
+						pair[0],
+						pair[1],
+						!blockedUsers.contains(pair[0])
+						));		
+			});
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
