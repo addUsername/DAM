@@ -74,8 +74,7 @@ public class Repository {
 			fw.close();			
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
-		
+		}		
 	}
 	/**
 	 * Elimina de bloquados.txt el usuario introducido
@@ -96,8 +95,7 @@ public class Repository {
 			fw.close();			
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
-		
+		}		
 	}
 	/**
 	 * Devuelve los nombres de los usuarios bloqueados como String

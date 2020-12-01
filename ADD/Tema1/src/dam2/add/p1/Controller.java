@@ -10,6 +10,7 @@ public class Controller {
 
 	private final int MAX = 3;	// Número max de intentos login por usuario valido
 	private final String ADMIN = "admin"; // username con privilegios admin
+	private final String PIN = "ABCDE"; // Codigo para desbloquear admin
 	private HashMap<String, User> users; // "tabla" Usuarios. user:{ username: "", pass: "", isValid: true}
 	
 	/**
@@ -33,20 +34,34 @@ public class Controller {
 					case 2:
 						Ui.printMessage("Hola "+user.getUsername());
 						Logger.log("- [SUCCESS] "+user.getUsername());
+						
 						if(isAdmin(user.getUsername())) {
 							if(unblock()) {
 								Ui.printMessage("Usuario desbloqueado");
+								Logger.log("- [ADMIN / UNBLOCK] ");
 							}
 						}
 						return;
+						
 					case 1:
 						Ui.printError("usuario/contraseña incorrectos");
 						Logger.log("- [ERROR / WRONG PASS] "+user.getUsername());
 						user.setPass(Ui.getPass());
 						break;
+						
 					case 0:
 						Ui.printError("Usuario "+user.getUsername()+" bloqueado.");
 						Logger.log("- [ERROR / BLOCKED] "+user.getUsername());
+						
+						if(isAdmin(user.getUsername())) {
+							if(tryUnlockAdmin()){
+								Ui.printMessage(" Pin correcto, usuario desbloquado");
+								Logger.log("- [ADMIN / UNBLOCK] "+ADMIN);
+							}else {
+								Ui.printMessage(" Pin incorrecto.");
+								Logger.log("- [ADMIN / ERROR] Wrong ping");
+							}
+						}
 						return;
 				}				
 			}
@@ -63,7 +78,20 @@ public class Controller {
 				Logger.log("- [SIGN IN] "+user.getUsername());
 			}
 		}				
-	}	
+	}
+	/**
+	 * Si invalid user == ADMIN, el programa pedira el PIN para desbloquarlos
+	 */
+	private boolean tryUnlockAdmin() {
+		String cod = Ui.askForAdminPin();
+		
+		if(cod.equals(PIN)) {
+			Repository.unblock(ADMIN);
+			this.users = Repository.findAll();
+			return true;
+		}
+		return false;
+	}
 	/**
 	 * Comprueba si el user es el Admin.
 	 */
@@ -102,7 +130,7 @@ public class Controller {
 		User a = users.get(user.getUsername());
 		
 		if(!a.isValid()) return 0;		
-		if(a.getUsername().contentEquals(user.getPass())) return 2;		
+		if(a.getPass().contentEquals(user.getPass())) return 2;		
 		return 1;
 	}
 

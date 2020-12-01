@@ -97,4 +97,11 @@ public class Ui {
 	public static void printError(String error) {
 		System.err.println(error);
 	}
+
+	public static String askForAdminPin() {
+		
+		Scanner sc = new Scanner(System.in);
+		System.out.println(" Introduzca pin para desbloquear esta cuenta: ");		
+		return sc.nextLine();
+	}
 }
