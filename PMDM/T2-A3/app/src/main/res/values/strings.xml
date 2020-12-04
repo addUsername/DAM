@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">pmdm3</string>
+    <string name="title">Bin~Dec~Hex Conversor</string>
+    <string name="bin">Binario</string>
+    <string name="dec">Decimal</string>
+    <string name="hex">Hexadecimal</string>
+    <string name="btn">Convertir!</string>
+    <string name="from">From</string>
+    <string name="to">To</string>
+</resources>
