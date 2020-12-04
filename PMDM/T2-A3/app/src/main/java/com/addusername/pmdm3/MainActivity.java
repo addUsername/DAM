@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
                 if(checkedOutput.equals("dec"))
                     return Integer.toString(Integer.parseInt(numToConver,2));
                 if(checkedOutput.equals("hex"))
-                    return Integer.toString(Integer.parseInt(numToConver,16));
+                    return Integer.toHexString(Integer.parseInt(numToConver,2));
                 return numToConver;
             case "dec":
                 if(checkedOutput.equals("bin"))
