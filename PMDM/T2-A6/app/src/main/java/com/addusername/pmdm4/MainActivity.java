@@ -48,8 +48,14 @@ public class MainActivity extends AppCompatActivity {
         else toast.show();
     }
     public boolean bookmarkClick(MenuItem item){
-        if(String.valueOf(item.getTitle()).equals("Google")) webview.loadUrl(BOOKMARK1);
-        else webview.loadUrl(BOOKMARK2);
+        if(String.valueOf(item.getTitle()).equals("Google")){
+            webview.loadUrl(BOOKMARK1);
+            input.setText(BOOKMARK1);
+        }
+        else {
+            webview.loadUrl(BOOKMARK2);
+            input.setText(BOOKMARK2);
+        }
         return true;
     }
 }
