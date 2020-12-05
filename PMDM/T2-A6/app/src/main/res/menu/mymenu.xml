@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/bookmark1"
+        android:onClick="bookmarkClick"
+        android:title="@string/bookmark1_name" />
+    <item android:id="@+id/bookmark2"
+        android:onClick="bookmarkClick"
+        android:title="@string/bookmark2_name" />
+</menu>

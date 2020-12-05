@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">pmdm4 Webview</string>
+    <string name="btn">Ir</string>
+    <string name="hint">Debe comenzar por http://</string>
+    <string name="error">Debe comenzar por http://</string>
+    <string name="bookmark1_name">Google</string>
+    <string name="bookmark2_name">Stackoverflow</string>
+    <string name="bookmark1_value">http://www.google.com</string>
+    <string name="bookmark2_value">http://www.stackoverflow.com</string>
+</resources>
