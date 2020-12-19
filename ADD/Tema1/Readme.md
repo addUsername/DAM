@@ -1,1 +1,1 @@
-Ficheros
+Fichero de texto
