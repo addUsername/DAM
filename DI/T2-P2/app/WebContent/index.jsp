@@ -7,14 +7,29 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>P2</title>
+<style><%@include file="/WEB-INF/resources/css/style.css"%></style>
 </head>
 <body>
+	<h1> DII P2</h1>
+	<div class="container">
+	<% if (request.getAttribute("error") != null){ %>
+		<h2><%=request.getAttribute("error")%></h2>
+	<%} %>
+	<form action = "post" method = "post" class="form">
+			
+			<p>Nombre:</p> <input type = "text" name = "name"/>
+			<p>Apellido:</p> <input type = "text" name = "surname" />
+			<p>Email:</p> <input type = "email" name = "email" />
+			<p>Telefono:</p> <input type = "number" min="600000000" max="799999999 "name = "phone" />
+			<p>Comentarios:</p> <textarea type = "text" maxlength="200" rows="10" cols="30" name = "comments"></textarea>		
+			<input id="button" type = "submit" value = "Submit" />
+	</form>
 	<%
 		List<Contacto> contactos = (ArrayList<Contacto>) application.getAttribute("contactos");
 		if(contactos != null && contactos.size() > 0) {
 	%>
-	<table>
+	<table class="table">
 		<tr> 
 			<th>Nombre</th>
 			<th>Apellido</th>
@@ -32,14 +47,6 @@
 			</tr>
 		<%}} %>
 	</table>
-	<form action = "post" method = "post" class="form" id="form">
-			
-			<p>Nombre:</p> <input type = "text" name = "name"/>
-			<p>Apellido:</p> <input type = "text" name = "surname" />
-			<p>Email:</p> <input type = "text" name = "email" />
-			<p>Telefono:</p> <input type = "text" name = "phone" />
-			<p>Comentarios:</p> <input type = "text" name = "comments" />		
-			<input id="button" type = "submit" value = "Submit" />
-</form>
+	</div>
 </body>
 </html>
