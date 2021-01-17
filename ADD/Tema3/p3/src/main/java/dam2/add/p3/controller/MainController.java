@@ -4,16 +4,34 @@ import dam2.add.p3.interfaces.MainControllerModelImpl;
 import dam2.add.p3.interfaces.MainControllerViewImpl;
 import dam2.add.p3.interfaces.MainModelImpl;
 import dam2.add.p3.interfaces.MainViewImpl;
+import dam2.add.p3.model.MainModel;
+import dam2.add.p3.view.MainView;
 
+/**
+ *
+ * @author SERGI
+ *
+ */
 public class MainController implements MainControllerViewImpl, MainControllerModelImpl {
 
 	private MainModelImpl model;
 	private MainViewImpl view;
 
+	/**
+	 * For mockito
+	 */
 	public MainController(MainModelImpl model, MainViewImpl view) {
 		super();
 		this.model = model;
 		this.view = view;
+	}
+
+	/**
+	 * For Main.main();
+	 **/
+	public MainController() {
+		model = new MainModel(this);
+		view = new MainView(this);
 	}
 
 	public void start() {
