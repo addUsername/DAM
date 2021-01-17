@@ -3,7 +3,7 @@
   <groupId>dam2.add</groupId>
   <artifactId>p3</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>ADD_P3_SERGIO_AMORES_ARIAS</name>
+  <name></name>
   <dependencies>
  	<!-- https://mvnrepository.com/artifact/junit/junit -->
 	<dependency>
