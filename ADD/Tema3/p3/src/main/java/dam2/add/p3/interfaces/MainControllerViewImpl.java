@@ -1,5 +1,7 @@
 package dam2.add.p3.interfaces;
 
+import java.io.InputStream;
+
 /**
  *
  * @author SERGI
@@ -7,5 +9,9 @@ package dam2.add.p3.interfaces;
  */
 public interface MainControllerViewImpl {
 
-	void mainMenuptionSelected(int i);
+	void mainMenuOptionSelected(int i);
+
+	void uploadQuestion(InputStream in);
+
+	void importFile(InputStream in);
 }

@@ -9,4 +9,8 @@ public interface MainViewImpl {
 
 	void showMenu();
 
+	void requestQuestionFile();
+
+	void requestImportFile();
+
 }

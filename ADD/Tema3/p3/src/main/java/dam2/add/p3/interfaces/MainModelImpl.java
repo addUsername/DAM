@@ -1,5 +1,7 @@
 package dam2.add.p3.interfaces;
 
+import java.io.InputStream;
+
 /**
  *
  * @author SERGI
@@ -8,5 +10,13 @@ package dam2.add.p3.interfaces;
 public interface MainModelImpl {
 
 	void startGame();
+
+	void addQuestion(InputStream inputStream);
+
+	void importQuestions(InputStream inputStream);
+
+	void seeRecords();
+
+	void seeWiki();
 
 }

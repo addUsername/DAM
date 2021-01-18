@@ -1,19 +1,22 @@
 package dam2.add.p3.entities;
 
+import java.util.Random;
+
 /**
  * Esto no se puede mover al paquete model porque view lo necesita
- * 
+ *
  * @author SERGI
  *
  */
 public class Pregunta {
 
 	private String question;
+	private long id;
 	private String[] options;
-	private int correct;
+	private int answer;
 
 	public Pregunta() {
-
+		id = new Random().nextLong();
 	}
 
 	public String getQuestion() {
@@ -33,11 +36,14 @@ public class Pregunta {
 	}
 
 	public int getCorrect() {
-		return correct;
+		return answer;
 	}
 
-	public void setCorrect(int correct) {
-		this.correct = correct;
+	public void setCorrect(int answer) {
+		this.answer = answer;
 	}
 
+	public long getId() {
+		return id;
+	}
 }

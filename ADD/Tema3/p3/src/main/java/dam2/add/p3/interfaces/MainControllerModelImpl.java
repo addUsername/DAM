@@ -7,4 +7,8 @@ package dam2.add.p3.interfaces;
  */
 public interface MainControllerModelImpl {
 
+	void fileText(String[] lines);
+
+	void sendError(String string);
+
 }
