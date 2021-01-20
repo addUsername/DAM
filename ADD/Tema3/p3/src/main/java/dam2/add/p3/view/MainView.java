@@ -1,9 +1,7 @@
 package dam2.add.p3.view;
 
-import java.io.InputStream;
 import java.util.Scanner;
 
-import dam2.add.p3.interfaces.MainControllerViewImpl;
 import dam2.add.p3.interfaces.MainViewImpl;
 
 /**
@@ -13,52 +11,135 @@ import dam2.add.p3.interfaces.MainViewImpl;
  */
 public class MainView implements MainViewImpl {
 
-	private MainControllerViewImpl controller;
-	private UploadService uploadService;
+	private Scanner sc;
 
-	public MainView(MainControllerViewImpl controller) {
+	private final static String SPINNER = "|/-\\";
+	private final static long SPINNER_K = (long) (1 / SPINNER.length()) * 1000;
+
+	public MainView() {
 		super();
-		this.controller = controller;
+		sc = new Scanner(System.in);
 	}
 
-	public void showMenu() {
-
+	public int showMenu() {
 		Print.printMessage(Text.MENU);
 		Print.printOptions(Strings.OPTIONS);
+		Print.printMessage(Strings.IN);
 
-		int i = getInput();
-		controller.mainMenuOptionSelected(i);
+		return getInt();
 	}
 
-	private int getInput() {
-		// TODO Auto-generated method stub
-		String option = new Scanner(System.in).nextLine();
-		int toReturn = 0;
-		try {
-			toReturn = Integer.parseInt(option);
-		} catch (NumberFormatException e) {
-
-			Print.inputError();
-			Print.printMessage(Strings.IN);
-			toReturn = getInput();
-		}
+	public String[] requestQuestionFile() {
+		String[] toReturn = new String[5];
+		Print.printMessage(Strings.REQXMLQUESION);
+		toReturn[0] = sc.nextLine();
+		Print.printMessage(Strings.REQXMLOPTION1);
+		toReturn[1] = sc.nextLine();
+		Print.printMessage(Strings.REQXMLOPTION2);
+		toReturn[2] = sc.nextLine();
+		Print.printMessage(Strings.REQXMLOPTION3);
+		toReturn[3] = sc.nextLine();
+		Print.printMessage(Strings.REQXMLANS);
+		toReturn[4] = sc.nextLine();
 		return toReturn;
 	}
 
-	public void requestQuestionFile() {
-		// TODO UploadFileService xml
-		Scanner sc = new Scanner(System.in);
-		Print.printMessage(Strings.REQXMLFILEPATH);
-		InputStream in = uploadService.getUpload(sc.nextLine());
-		controller.uploadQuestion(in);
+	public String requestImportFile() {
+		Print.printMessage(Strings.REQXLSFILEPATH);
+		return sc.nextLine();
 	}
 
-	public void requestImportFile() {
-		// TODO UploadFileService xls
-		Scanner sc = new Scanner(System.in);
-		Print.printMessage(Strings.REQXMLFILEPATH);
-		InputStream in = uploadService.getUpload(sc.nextLine());
-		controller.importFile(in);
+	public void showQuestion(String question) {
+		Print.printMessage(Text.SHOWQUESTION);
+		Print.printMessage(question);
+		Print.printMessage(Strings.IN);
+	}
+
+	private int getInt() {
+		int i;
+		try {
+			i = Integer.parseInt(sc.nextLine());
+		} catch (Exception e) {
+			Print.inputError();
+			return getInt();
+		}
+		return i;
+	}
+
+	public void correct() {
+		Print.printMessage(Text.TRUE);
+		return;
+	}
+
+	public void incorrect() {
+		Print.printMessage(Text.FALSE);
+		return;
+	}
+
+	public int showEndMenu(String[] data) {
+
+		Print.printMessage(Strings.ENDGAME_SCORE + " " + data[0]);
+		Print.printMessage(Strings.ENDGAME_ANS + " " + data[1]);
+		Print.printOptions(Strings.ENDMENU2);
+		Print.printMessage(Strings.IN);
+
+		return getInt();
+	}
+
+	public void showPDF() {
+		Print.printMessage(Strings.WAIT);
+		sc.hasNextLine();
+	}
+
+	public void showRecords(String[] lines) {
+		Print.printMessage(Text.RECORDS);
+		Print.printOptions(lines);
+		Print.printMessage(Strings.WAIT);
+		sc.nextLine();
+		return;
+
+	}
+
+	public void showWiki(String[] lines) {
+		Print.printMessage(Text.INSTRUCTIONS);
+		Print.printOptions(lines);
+		Print.printMessage(Strings.WAIT);
+		sc.nextLine();
+		return;
+	}
+
+	public String getName() {
+		Print.printMessage(Text.END);
+		Print.printMessage(Strings.ENDMENU1);
+		return sc.nextLine();
+	}
+
+	public int showAnswers(String[] posibleAnswers) {
+		Print.printOptions(posibleAnswers);
+		Print.printMessage(Strings.IN);
+		return getInt();
+	}
+
+	public void showClose() {
+		Print.printMessage(Text.EXIT);
+	}
+
+	public void showInit() {
+		Print.printMessage(Text.INIT);
+
+	}
+
+	public int[] showConfig() {
+		int[] toReturn = new int[3];
+		Print.printMessage(Text.CONFIG);
+		Print.printMessage(Strings.CONFIGMENU1);
+		toReturn[0] = getInt();
+		Print.printMessage(Strings.CONFIGMENU2);
+		toReturn[1] = getInt();
+		Print.printMessage(Strings.CONFIGMENU3);
+		toReturn[2] = getInt();
+
+		return toReturn;
 	}
 
 }

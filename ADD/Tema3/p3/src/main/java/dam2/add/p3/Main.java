@@ -21,7 +21,7 @@ public class Main {
 	public static void main(String[] args) {
 
 		// MainController controller = new MainController(System.in);
-		MainController controller = new MainController(System.in, System.out);
+		MainController controller = new MainController();
 		while (true) {
 			controller.start();
 		}

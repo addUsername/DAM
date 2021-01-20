@@ -7,10 +7,34 @@ package dam2.add.p3.interfaces;
  */
 public interface MainViewImpl {
 
-	void showMenu();
+	int showMenu();
 
-	void requestQuestionFile();
+	String[] requestQuestionFile();
 
-	void requestImportFile();
+	String requestImportFile();
+
+	void showQuestion(String question);
+
+	int showAnswers(String[] posibleAnswers);
+
+	void correct();
+
+	void incorrect();
+
+	int showEndMenu(String[] data);
+
+	void showPDF();
+
+	void showRecords(String[] lines);
+
+	void showWiki(String[] lines);
+
+	String getName();
+
+	void showClose();
+
+	void showInit();
+
+	int[] showConfig();
 
 }

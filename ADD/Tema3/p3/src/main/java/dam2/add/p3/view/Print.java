@@ -16,11 +16,9 @@ public class Print {
 		for (int i = 0; i < options.length; i++) {
 			System.out.println(i + "- " + options[i]);
 		}
-		System.out.print(Strings.IN);
 	}
 
 	public static void inputError() {
 		System.out.println(Strings.ERROR_INPUT);
-
 	}
 }

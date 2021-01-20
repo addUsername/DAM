@@ -3,8 +3,7 @@ package dam2.add.p3.controller;
 import java.io.InputStream;
 import java.io.PrintStream;
 
-import dam2.add.p3.interfaces.MainControllerModelImpl;
-import dam2.add.p3.interfaces.MainControllerViewImpl;
+import dam2.add.p3.entities.Pregunta;
 import dam2.add.p3.interfaces.MainModelImpl;
 import dam2.add.p3.interfaces.MainViewImpl;
 import dam2.add.p3.model.MainModel;
@@ -15,10 +14,12 @@ import dam2.add.p3.view.MainView;
  * @author SERGI
  *
  */
-public class MainController implements MainControllerViewImpl, MainControllerModelImpl {
+public class MainController {
 
 	private MainModelImpl model;
 	private MainViewImpl view;
+	private Pregunta currentPregunta;
+	private int[] config = { 3, 1, 0 };
 
 	/**
 	 * For mockito
@@ -34,66 +35,124 @@ public class MainController implements MainControllerViewImpl, MainControllerMod
 	/**
 	 * For Main.main();
 	 **/
-	public MainController(InputStream in, PrintStream out) {
-		model = new MainModel(this);
-		view = new MainView(this);
-		System.setIn(in);
-		System.setOut(out);
+	public MainController() {
+		model = new MainModel();
+		view = new MainView();
+		view.showInit();
 	}
 
-	public void start() {
-		view.showMenu();
+	public boolean start() {
+		mainMenuOptionSelected(view.showMenu());
+		return false;
 	}
 
 	// MainControllerViewImpl
 	public void mainMenuOptionSelected(int i) {
+		String[] data;
 		switch (i) {
+		case 0:
+			model.startGame(config);
+			currentPregunta = model.getQuestion();
+
+			while (currentPregunta != null) {
+				view.showQuestion(currentPregunta.getQuestion());
+				int ans = view.showAnswers(currentPregunta.getOptions());
+				if (model.validate(ans)) {
+					view.correct();
+				} else {
+					view.incorrect();
+				}
+				currentPregunta = model.getQuestion();
+			}
+			data = model.finishGame();
+			model.setUsername(view.getName());
+			endMenuOptionSelected(view.showEndMenu(data));
+			break;
 		case 1:
-			model.startGame();
-			// jugar
+			// añadir preg
+			data = view.requestQuestionFile();
+			model.addQuestion(data);
 			break;
 		case 2:
-			// añadir preg
-			view.requestQuestionFile();
+			// importar preguntas
+			String path = view.requestImportFile();
+			model.importQuestions(path);
 			break;
 		case 3:
-			// importar preguntas
-			view.requestImportFile();
+			// ver records
+			view.showRecords(model.seeText(true));
 			break;
 		case 4:
-			// ver records
-			model.seeRecords();
+			view.showWiki(model.seeText(false));
+			// Instrucciones
 			break;
 		case 5:
-			model.seeWiki();
-			// Instrucciones
+			// Config
+			config = view.showConfig();
 			break;
 		default:
 			// 0 salir
+			view.showClose();
 			System.exit(0);
 			return;
 		}
 		return;
 	}
 
-	public void uploadQuestion(InputStream in) {
-		// TODO Auto-generated method stub
-		model.addQuestion(in);
+	public void endMenuOptionSelected(int input) {
+
+		switch (input) {
+		case 0:
+			// menu ppal
+			break;
+		case 1:
+			// ver records
+			view.showRecords(model.seeText(true));
+			break;
+		case 2:
+			// genenrar informe
+			model.createPDF();
+			view.showPDF();
+			break;
+		default:
+			System.exit(0);
+			break;
+		}
+
 	}
 
-	public void importFile(InputStream in) {
-		// TODO Auto-generated method stub
-		model.importQuestions(in);
-
-	}
-
-	public void fileText(String[] lines) {
-		// TODO Auto-generated method stub
-
+	public void fileText(String[] lines, boolean b) {
+		if (b) {
+			view.showRecords(lines);
+		} else {
+			view.showWiki(lines);
+		}
 	}
 
 	public void sendError(String string) {
 		// TODO Auto-generated method stub
+
+	}
+
+	/**
+	 *
+	 */
+
+	public void wasCorrect(boolean b) {
+		if (b) {
+			view.correct();
+		} else {
+			view.incorrect();
+		}
+		model.getQuestion();
+	}
+
+	public void endGame(String[] data) {
+		view.showEndMenu(data);
+	}
+
+	public void setUsername(String nextLine) {
+		model.setUsername(nextLine);
 
 	}
 

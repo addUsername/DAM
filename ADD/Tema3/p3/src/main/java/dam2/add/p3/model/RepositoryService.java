@@ -1,10 +1,13 @@
 package dam2.add.p3.model;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.util.HashMap;
 import java.util.List;
+import java.util.SortedSet;
 
 import dam2.add.p3.entities.Pregunta;
 
@@ -17,11 +20,6 @@ import dam2.add.p3.entities.Pregunta;
  */
 public class RepositoryService {
 
-	public static Pregunta[] getAllQuestions(String path) {
-
-		return UtilsXml.parseString(readFileAsString(path));
-	}
-
 	/**
 	 * Detectar auto si viene de .xls o .xml
 	 *
@@ -33,7 +31,7 @@ public class RepositoryService {
 		return null;
 	}
 
-	private static String readFileAsString(String path) {
+	public static String readFileAsString(String path) {
 		String file = "";
 		try {
 			file = new String(Files.readAllBytes(new File(path).toPath()), StandardCharsets.UTF_8);
@@ -61,15 +59,31 @@ public class RepositoryService {
 		List<String> lines = readFile(path);
 		if (lines == null)
 			return null;
-		if (b)
+		if (!b)
 			return lines.toArray(new String[lines.size()]);
 
 		String[] toReturn = new String[lines.size() / 2];
-		for (int i = 0; i < lines.size(); i++) {
-			if (i % 2 == 0) {
-				toReturn[i / 2] = lines.get(i) + "\n" + lines.get(i + 1);
-			}
+		for (int i = 0; i < lines.size() / 2; i++) {
+			toReturn[i] = lines.get(i * 2) + "#" + lines.get(2 * i + 1) + "\n";
 		}
 		return toReturn;
 	}
+
+	public static void writeRecord(String path, HashMap<Integer, String> dict, SortedSet<Integer> keys) {
+
+		File file = new File(path);
+		try {
+			FileWriter fw = new FileWriter(file);
+			String text = "";
+			for (Integer key : keys) {
+				text += "\n" + dict.get(key) + "\n" + key;
+			}
+			fw.write(text.substring(1, text.length()));
+			fw.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 }

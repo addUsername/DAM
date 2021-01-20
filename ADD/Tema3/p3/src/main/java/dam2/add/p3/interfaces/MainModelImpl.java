@@ -1,6 +1,6 @@
 package dam2.add.p3.interfaces;
 
-import java.io.InputStream;
+import dam2.add.p3.entities.Pregunta;
 
 /**
  *
@@ -9,14 +9,22 @@ import java.io.InputStream;
  */
 public interface MainModelImpl {
 
-	void startGame();
+	void startGame(int[] config);
 
-	void addQuestion(InputStream inputStream);
+	Pregunta getQuestion();
 
-	void importQuestions(InputStream inputStream);
+	void addQuestion(String[] data);
 
-	void seeRecords();
+	void importQuestions(String path);
 
-	void seeWiki();
+	String[] seeText(boolean b);
+
+	boolean validate(int ans);
+
+	void setUsername(String nextLine);
+
+	void createPDF();
+
+	String[] finishGame();
 
 }
