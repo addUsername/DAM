@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
 """
 Created on Mon Jan 18 02:39:29 2021
-
+TODO: delete temp folder!
 @author: SERGI
 """
 import os
 from pdf2image import convert_from_path
 
 print("Reading file")
-filename = ""
+
 # Store Pdf with convert_from_path function
-images = convert_from_path(filename, output_folder=(
+images = convert_from_path('trivial.pdf', output_folder=(
     os.path.join(os.getcwd(), "temp")), grayscale=(True))
 
 print("images will be saved in: " + os.path.join(os.getcwd(), "output"))
@@ -18,10 +18,10 @@ print("imgs length: "+str(len(images)))
 
 # crop img
 width, height = images[0].size
-top = int(height*0.2)  # ok
-left = int(width*0.27)  # ok
-right = int(width*0.85)  # ok
-bottom = int(height*0.45)  # ok
+top = int(height*0.19)  # ok
+left = int(width*0.268)  # ok
+right = int(width*0.82)  # ok
+bottom = int(height*0.448)  # ok
 
 # should resize?
 
