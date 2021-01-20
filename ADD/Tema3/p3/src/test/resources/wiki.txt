@@ -1,0 +1,5 @@
+Cada partida consta de X preguntas
+Cada pregunta tiene una unica respuesta valida
+Cada respuesta correcta suma 1 punto
+Cada respuesta incorrecta resta 0 punto
+
