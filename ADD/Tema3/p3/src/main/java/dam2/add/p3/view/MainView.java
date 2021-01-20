@@ -13,9 +13,6 @@ public class MainView implements MainViewImpl {
 
 	private Scanner sc;
 
-	private final static String SPINNER = "|/-\\";
-	private final static long SPINNER_K = (long) (1 / SPINNER.length()) * 1000;
-
 	public MainView() {
 		super();
 		sc = new Scanner(System.in);
@@ -52,7 +49,6 @@ public class MainView implements MainViewImpl {
 	public void showQuestion(String question) {
 		Print.printMessage(Text.SHOWQUESTION);
 		Print.printMessage(question);
-		Print.printMessage(Strings.IN);
 	}
 
 	private int getInt() {
@@ -72,7 +68,7 @@ public class MainView implements MainViewImpl {
 	}
 
 	public void incorrect() {
-		Print.printMessage(Text.FALSE);
+		Print.printError(Text.FALSE);
 		return;
 	}
 
@@ -140,6 +136,22 @@ public class MainView implements MainViewImpl {
 		toReturn[2] = getInt();
 
 		return toReturn;
+	}
+
+	public void processError() {
+		Print.printError(Strings.PROCESSERROR);
+	}
+
+	public void proccesOK() {
+		Print.printMessage(Strings.PROCESSOK);
+
+	}
+
+	public int overwriteQuestions() {
+		// TODO Auto-generated method stub
+		Print.printMessage(Strings.OVERRIDEQUESTIONS);
+		Print.printOptions(Strings.XLSOPTIONS);
+		return getInt();
 	}
 
 }

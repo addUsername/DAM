@@ -149,7 +149,6 @@ public class UtilsPDF {
 	}
 
 	private static Font questionFont() {
-		// TODO Auto-generated method stub
 		Font f = new Font();
 		f.setFamily(nameFont);
 		f.setSize(15);
@@ -173,7 +172,6 @@ public class UtilsPDF {
 	}
 
 	private static Font sectionFont() {
-		// TODO Auto-generated method stub
 		Font f = new Font();
 		f.setFamily(nameFont);
 		f.setSize(25);

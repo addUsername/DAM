@@ -33,4 +33,12 @@ public class Strings {
 
 	public static final String WAIT = "Pulsa INTRO para contnuar...";
 
+	public static final String PROCESSERROR = "Se ha producido un error al realizar la operacion";
+	public static final String PROCESSOK = "Proceso finalizado con exito!";
+
+	public static final String OVERRIDEQUESTIONS = "Como desea persistir el fichero preguntas.xml?\n";
+
+	public static final String[] XLSOPTIONS = { "En memoria", "Añadir a preguntas.xml", "Sobreescribir preguntas,xml",
+			"Deshacer cambios" };
+
 }

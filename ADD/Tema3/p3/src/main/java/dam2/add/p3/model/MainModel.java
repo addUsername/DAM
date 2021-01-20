@@ -1,14 +1,12 @@
 package dam2.add.p3.model;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 import java.util.SortedSet;
 import java.util.TreeSet;
-
-import com.itextpdf.text.DocumentException;
 
 import dam2.add.p3.entities.Partida;
 import dam2.add.p3.entities.Pregunta;
@@ -25,27 +23,53 @@ public class MainModel implements MainModelImpl {
 	private final String QUESTIONSXML = "/preguntas.xml";
 	private final String RECORDSTXT = "/records.txt";
 	private final String WIKITXT = "/wiki.txt";
+	private final String PREGUNTASXLS = "preguntas.xls";
 
 	private Partida currentGame;
 	private Pregunta currentPregunta;
 	private int index;
+	private boolean setPreguntas = true;
 
 	public MainModel() {
 		super();
+		currentGame = new Partida();
 	}
 
+	/**
+	 * REQUSITO 1
+	 *
+	 * El método {@link UtilsXml#parseString(String)} mapea preguntas.xml como
+	 * Pregunta[].
+	 *
+	 * El metodo {@link MainModel#chooseQuestions(Pregunta[], int)} selecciona int
+	 * preguntas.
+	 *
+	 * El attributo {@link MainModel#setPreguntas} indicia si es necesario cargar
+	 * las preguntas o no.
+	 *
+	 * @param config configura la partida ( num preguntas, puntos por acierto,
+	 *               puntos por fallo ).
+	 */
 	public void startGame(int[] config) {
 		currentGame = new Partida();
 		currentGame.setConfig(config[0], config[1], config[2]);
 
-		Pregunta[] all = UtilsXml.parseString(RepositoryService.readFileAsString(RESFOLDER + QUESTIONSXML));
-		List<Pregunta> toReturn = new ArrayList<Pregunta>(currentGame.MAXPREGUNTAS);
-		currentGame.setPreguntas(chooseQuestions(toReturn, all, currentGame.MAXPREGUNTAS));
+		if (setPreguntas) {
+			Pregunta[] all = UtilsXml.parseString(RepositoryService.readFileAsString(RESFOLDER + QUESTIONSXML));
+			currentGame.setPreguntas(chooseQuestions(all, currentGame.MAXPREGUNTAS));
+		}
 		index = -1;
 	}
 
-	private List<Pregunta> chooseQuestions(List<Pregunta> toReturn, Pregunta[] all, int max) {
-		// Check for duplicates bc id,
+	/**
+	 * Se selecciona un indice al azar hasta @param max´
+	 *
+	 * @param all Todas las preguntas disponibles en la partida
+	 * @param max Numer pregunta por partida
+	 * @return
+	 */
+	private List<Pregunta> chooseQuestions(Pregunta[] all, int max) {
+		List<Pregunta> toReturn = new ArrayList<Pregunta>(max);
 
 		for (int i = 0; i < max; i++) {
 			int rd = new Random().nextInt(all.length);
@@ -61,8 +85,13 @@ public class MainModel implements MainModelImpl {
 		return toReturn;
 	}
 
+	/**
+	 * REQUISITO 1
+	 *
+	 * Se van leyendo las preguntas secuencialmente, si devuelve null se acaba la
+	 * partida
+	 */
 	public Pregunta getQuestion() {
-		// check for index > getPreguntas.length
 		Pregunta toReturn = null;
 		if (index + 1 < currentGame.getPreguntas().size()) {
 			currentPregunta = currentGame.getPreguntas().get(++index);
@@ -98,20 +127,28 @@ public class MainModel implements MainModelImpl {
 		}
 	}
 
+	/**
+	 * REQUISITOS 7 y 9 Devuelve records.txt o wiki.txt
+	 */
 	public String[] seeText(boolean b) {
-		// b records false wiki
 		String where = (b) ? RECORDSTXT : WIKITXT;
 		String[] lines = RepositoryService.getLines(RESFOLDER + where, b);
 		return lines;
 	}
 
+	/**
+	 * REQUISITO 7 Recoge el nombre de usuario
+	 */
 	public void setUsername(String nextLine) {
 		currentGame.setUserName(nextLine);
 		setRecord();
 	}
 
+	/**
+	 * REQUISITO 7 Mapea records.txt a HashMap<puntos, nombre>, se ordenan las keys
+	 * y llama a{@link RepositoryService#writeRecord(String, HashMap, SortedSet)
+	 */
 	private void setRecord() {
-		// TODO Auto-generated method stub
 		String[] lines = seeText(true);
 		HashMap<Integer, String> dict = new HashMap<Integer, String>(lines.length);
 		String[] split;
@@ -122,32 +159,49 @@ public class MainModel implements MainModelImpl {
 			dict.put(Integer.parseInt(split[1]), split[0]);
 		}
 		dict.put(currentGame.getScore(), currentGame.getUserName());
-		SortedSet<Integer> keys = new TreeSet<Integer>(dict.keySet());
+		SortedSet<Integer> keys = new TreeSet<Integer>(Collections.reverseOrder());
+		keys.addAll(dict.keySet());
 
 		RepositoryService.writeRecord(RESFOLDER + RECORDSTXT, dict, keys);
 	}
 
-	public void createPDF() {
-		// TODO Auto-generated method stub
+	public boolean createPDF() {
 		try {
 			UtilsPDF.generatePDF(currentGame);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (DocumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+
+		} catch (Exception e) {
+			return false;
 		}
+		return true;
 	}
 
-	public void addQuestion(String[] data) {
-		// TODO Auto-generated method stub
-
+	public Boolean addQuestion(String[] data) {
+		if (Integer.parseInt(data[4]) < 0 || Integer.parseInt(data[4]) > 2)
+			return null;
+		return UtilsXml.addQuestion(data, RESFOLDER + QUESTIONSXML);
 	}
 
-	public void importQuestions(String path) {
-		// TODO Auto-generated method stub
+	public Boolean SaveImportedQuestions(String path) {
+		path = (path == null) ? PREGUNTASXLS : path;
 
+		Pregunta[] preguntas;
+		try {
+			preguntas = UtilsExcel.parseFile(path);
+
+		} catch (Exception e) {
+			return false;
+		}
+		List<Pregunta> p = chooseQuestions(preguntas, currentGame.MAXPREGUNTAS);
+
+		currentGame.setPreguntas(p);
+		setPreguntas = false;
+		return (preguntas != null);
+	}
+
+	public boolean writeImportedQuestions(boolean shouldOverwrite) {
+
+		Boolean bool = UtilsXml.overwriteExcel(RESFOLDER + QUESTIONSXML, currentGame.getPreguntas(), shouldOverwrite);
+		return bool;
 	}
 
 }

@@ -37,4 +37,10 @@ public interface MainViewImpl {
 
 	int[] showConfig();
 
+	void processError();
+
+	void proccesOK();
+
+	int overwriteQuestions();
+
 }

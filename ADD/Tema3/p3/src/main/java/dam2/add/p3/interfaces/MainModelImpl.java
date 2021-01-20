@@ -13,9 +13,9 @@ public interface MainModelImpl {
 
 	Pregunta getQuestion();
 
-	void addQuestion(String[] data);
+	Boolean addQuestion(String[] data);
 
-	void importQuestions(String path);
+	Boolean SaveImportedQuestions(String path);
 
 	String[] seeText(boolean b);
 
@@ -23,8 +23,10 @@ public interface MainModelImpl {
 
 	void setUsername(String nextLine);
 
-	void createPDF();
+	boolean createPDF();
 
 	String[] finishGame();
+
+	boolean writeImportedQuestions(boolean ShouldOverride);
 
 }

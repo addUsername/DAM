@@ -19,6 +19,11 @@ public class Print {
 	}
 
 	public static void inputError() {
-		System.out.println(Strings.ERROR_INPUT);
+		System.err.println(Strings.ERROR_INPUT);
+	}
+
+	public static void printError(String processerror) {
+		System.err.println(processerror);
+
 	}
 }

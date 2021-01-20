@@ -72,6 +72,9 @@ public class Partida {
 
 	public void removePoints() {
 		score -= POINTSWRONGANS;
+		if (score < 0) {
+			score = 0;
+		}
 	}
 
 	public int getScore() {

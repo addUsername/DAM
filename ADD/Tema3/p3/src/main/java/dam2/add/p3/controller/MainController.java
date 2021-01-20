@@ -1,8 +1,5 @@
 package dam2.add.p3.controller;
 
-import java.io.InputStream;
-import java.io.PrintStream;
-
 import dam2.add.p3.entities.Pregunta;
 import dam2.add.p3.interfaces.MainModelImpl;
 import dam2.add.p3.interfaces.MainViewImpl;
@@ -18,19 +15,9 @@ public class MainController {
 
 	private MainModelImpl model;
 	private MainViewImpl view;
+
 	private Pregunta currentPregunta;
 	private int[] config = { 3, 1, 0 };
-
-	/**
-	 * For mockito
-	 */
-	public MainController(MainModelImpl model, MainViewImpl view, InputStream in, PrintStream out) {
-		super();
-		this.model = model;
-		this.view = view;
-		System.setIn(in);
-		System.setOut(out);
-	}
 
 	/**
 	 * For Main.main();
@@ -49,6 +36,7 @@ public class MainController {
 	// MainControllerViewImpl
 	public void mainMenuOptionSelected(int i) {
 		String[] data;
+		Boolean bool;
 		switch (i) {
 		case 0:
 			model.startGame(config);
@@ -71,12 +59,29 @@ public class MainController {
 		case 1:
 			// añadir preg
 			data = view.requestQuestionFile();
-			model.addQuestion(data);
+			bool = model.addQuestion(data);
+			if (bool == null || false) {
+				view.processError();
+			} else {
+				view.proccesOK();
+			}
 			break;
 		case 2:
 			// importar preguntas
 			String path = view.requestImportFile();
-			model.importQuestions(path);
+			bool = model.SaveImportedQuestions(path);
+			if (bool) {
+
+				int shouldOverwrite = view.overwriteQuestions();
+
+				if (process(shouldOverwrite)) {
+					view.proccesOK();
+				} else {
+					view.processError();
+				}
+			} else {
+				view.processError();
+			}
 			break;
 		case 3:
 			// ver records
@@ -99,6 +104,29 @@ public class MainController {
 		return;
 	}
 
+	private boolean process(int shouldOverwrite) {
+
+		boolean bool = false;
+		switch (shouldOverwrite) {
+		case 1:
+			// append
+			bool = model.writeImportedQuestions(false);
+			break;
+		case 2:
+			// overwrite
+			bool = model.writeImportedQuestions(true);
+			break;
+		case 3:
+			// delete changes
+			model = new MainModel();
+		default:
+			// in memory
+			bool = true;
+			break;
+		}
+		return bool;
+	}
+
 	public void endMenuOptionSelected(int input) {
 
 		switch (input) {
@@ -111,48 +139,18 @@ public class MainController {
 			break;
 		case 2:
 			// genenrar informe
-			model.createPDF();
+			boolean bool = model.createPDF();
+			if (bool) {
+				view.proccesOK();
+			} else {
+				view.processError();
+			}
 			view.showPDF();
 			break;
 		default:
 			System.exit(0);
 			break;
 		}
-
-	}
-
-	public void fileText(String[] lines, boolean b) {
-		if (b) {
-			view.showRecords(lines);
-		} else {
-			view.showWiki(lines);
-		}
-	}
-
-	public void sendError(String string) {
-		// TODO Auto-generated method stub
-
-	}
-
-	/**
-	 *
-	 */
-
-	public void wasCorrect(boolean b) {
-		if (b) {
-			view.correct();
-		} else {
-			view.incorrect();
-		}
-		model.getQuestion();
-	}
-
-	public void endGame(String[] data) {
-		view.showEndMenu(data);
-	}
-
-	public void setUsername(String nextLine) {
-		model.setUsername(nextLine);
 
 	}
 

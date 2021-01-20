@@ -1,7 +1,11 @@
 package p3;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -9,20 +13,98 @@ import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import dam2.add.p3.entities.Pregunta;
+import dam2.add.p3.model.RepositoryService;
 import dam2.add.p3.model.UtilsXml;
 
 public class UtilsXmlTest {
 
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-	}
-
 	@Before
 	public void setUp() throws Exception {
+	}
+
+	@Test
+	public void addQuestion_badChildBuild_false() throws JDOMException, IOException {
+
+		String path = "src/test/resources/preguntas.xml";
+
+		String[] data = { "1", "2", "3" };
+		long initSize = new File(path).length();
+
+		Boolean bol = UtilsXml.addQuestion(data, path);
+		long finalSize = new File(path).length();
+
+		Assert.assertFalse(bol);
+		Assert.assertTrue(initSize == finalSize);
+	}
+
+	@Test
+	public void overwriteExcel_makeNewFile_true() {
+
+		String path = "src/test/resources/preguntasOverride.xml";
+		boolean shouldOverride = true;
+		String test = "" + new Random().nextInt(1000);
+		String[] ans = { "1", "2", "3" };
+
+		long initSize = new File(path).lastModified();
+		Pregunta q = new Pregunta();
+		q.setQuestion(test);
+		q.setOptions(ans);
+		q.setCorrect(1);
+		List<Pregunta> p = Arrays.asList(q);
+
+		Boolean bol = UtilsXml.overwriteExcel(path, p, shouldOverride);
+		long finalSize = new File(path).lastModified();
+
+		Assert.assertTrue(bol);
+		Assert.assertTrue(initSize != finalSize);
+	}
+
+	@Test
+	public void overwriteExcel_appendFile_true() {
+
+		String path = "src/test/resources/preguntasOverride.xml";
+		boolean shouldOverride = false;
+		String test = "" + new Random().nextInt(1000);
+		String[] ans = { "1", "2", "3" };
+
+		long initSize = new File(path).length();
+		long initMod = new File(path).lastModified();
+		Pregunta q = new Pregunta();
+		q.setQuestion(test);
+		q.setOptions(ans);
+		q.setCorrect(1);
+		List<Pregunta> p = Arrays.asList(q);
+
+		Boolean bol = UtilsXml.overwriteExcel(path, p, shouldOverride);
+		long finalSize = new File(path).length();
+		long finalMod = new File(path).lastModified();
+
+		Assert.assertTrue(bol);
+		Assert.assertTrue(initSize < finalSize);
+		Assert.assertTrue(initMod < finalMod);
+	}
+
+	@Test
+	public void addQuestion_goodChildBuild_true() throws JDOMException, IOException {
+
+		String path = "src/test/resources/preguntas.xml";
+		String match = "" + new Random().nextInt(1000);
+		String match2 = "test";
+
+		String[] data = { match2, "1", "2", "3", match };
+		long initSize = new File(path).length();
+
+		Boolean bol = UtilsXml.addQuestion(data, path);
+		long finalSize = new File(path).length();
+		String finalString = RepositoryService.readFileAsString(path);
+
+		Assert.assertTrue(bol);
+		Assert.assertTrue(initSize < finalSize);
+		Assert.assertTrue(finalString.contains(match));
+		Assert.assertTrue(finalString.contains(match2));
 	}
 
 	@Test
