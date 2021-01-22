@@ -8,12 +8,12 @@ import os
 from pdf2image import convert_from_path
 
 print("Reading file")
-
+print("images will be saved in: " + os.path.join(os.getcwd(), "output"))
 # Store Pdf with convert_from_path function
-images = convert_from_path('trivial.pdf', output_folder=(
+images = convert_from_path('Trivial.pdf', output_folder=(
     os.path.join(os.getcwd(), "temp")), grayscale=(True))
 
-print("images will be saved in: " + os.path.join(os.getcwd(), "output"))
+
 print("imgs length: "+str(len(images)))
 
 # crop img
