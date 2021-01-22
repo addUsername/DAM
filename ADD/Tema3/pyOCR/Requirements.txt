@@ -1,8 +1,0 @@
-conda create --name OCR python=3.8
-conda activate OCR
-
-pip install pdf2image
-conda install -c conda-forge poppler
-
-pip install PIL
-pip install pytesseract
