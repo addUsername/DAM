@@ -1,0 +1,6 @@
+Cada pregunta tiene una unica respuesta valida
+Por defecto partida consta de 10 preguntas
+Por defecto cada respuesta correcta suma 1 punto
+Por defecto cada respuesta incorrecta resta 0 punto
+El del fichero .xls debe contener 5 columnas |texto|pregunta|respuesta1|respuesta2|respuesta3|correcta
+partida.pdf se genera en la raiz del proyecto
