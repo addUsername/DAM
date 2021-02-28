@@ -4,5 +4,3 @@ Desarrolla, en Java, un juego de preguntas haciendo uso de main/resources/pregun
 - Generar informe partida (partida{id}.pdf).
 - Persistir records por puntuacion(records.txt)
 - Menu (jugar, añadir/importar, ver records, Instrucciones, Salir)
-
-Metodología MVC TDD
